@@ -3,6 +3,7 @@ package commandexecuter.controlcenter.web
 import com.fasterxml.jackson.databind.JsonNode
 import commandexecuter.controlcenter.service.CommandFactory
 import commandexecuter.controlcenter.service.CommandRunner
+import commandexecuter.controlcenter.service.TextFilter
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.scheduling.annotation.Async
@@ -13,7 +14,8 @@ import java.net.URLDecoder
 @CrossOrigin(origins = ["*"])
 class CommandResource(
         private val commandFactory: CommandFactory,
-        private val commandRunner: CommandRunner
+        private val commandRunner: CommandRunner,
+        private val textFilter: TextFilter
 ) {
 
     @PostMapping("/command")
@@ -32,6 +34,8 @@ class CommandResource(
 
     @Async
     fun runCommand(commandText: String) {
-       commandFactory.tryToCreateCommand(commandText)?.also { commandRunner.runCommand(it) }
+        val filteredCommandText = textFilter.filter(commandText)
+        if (filteredCommandText.isNotEmpty())
+            commandFactory.tryToCreateCommand(filteredCommandText)?.also { commandRunner.runCommand(it) }
     }
 }
