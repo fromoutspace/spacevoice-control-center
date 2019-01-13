@@ -9,7 +9,7 @@ class CommandProcessFlow(
         private val commandFactory: CommandFactory,
         private val commandRunner: CommandRunner,
         private val historyCommandFactory: HistoryCommandFactory,
-        private val textFilter: TextFilter
+        private val alternativeProvider: AlternativeProvider
 ) {
     @Async
     fun processCommand(commandText: String) {
@@ -18,10 +18,12 @@ class CommandProcessFlow(
             return commandRunner.runCommand(commandFromHistory)
 
 
-        val filteredCommandText = textFilter.filter(commandText)
-        if (filteredCommandText.isEmpty()) return
+        val allCommandTextAlternatives = alternativeProvider.getAlternativeVariants(commandText)
+        if (allCommandTextAlternatives.isEmpty()) return
 
-        val command = commandFactory.tryToCreateCommand(filteredCommandText)
-        if (command != null) commandRunner.runCommand(command)
+        for (alternativeCommandText in allCommandTextAlternatives) {
+            val command = commandFactory.tryToCreateCommand(alternativeCommandText)
+            if (command != null) commandRunner.runCommand(command)
+        }
     }
 }
