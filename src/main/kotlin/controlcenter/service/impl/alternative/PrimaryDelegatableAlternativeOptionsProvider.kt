@@ -1,27 +1,27 @@
 package controlcenter.service.impl.alternative
 
-import controlcenter.service.AlternativeProvider
+import controlcenter.service.AlternativeOptionsProvider
 import org.apache.logging.log4j.LogManager
 import org.springframework.context.annotation.Primary
 import org.springframework.stereotype.Service
 
 @Primary
 @Service
-class PrimaryDelegatableAlternativeProvider(allProviders: List<AlternativeProvider>) : AlternativeProvider {
+class PrimaryDelegatableAlternativeOptionsProvider(allOptionsProviders: List<AlternativeOptionsProvider>) : AlternativeOptionsProvider {
     private val log = LogManager.getLogger(this.javaClass)
 
-    private val otherProviders = allProviders
+    private val otherProviders = allOptionsProviders
             .filter { it != this }
 
-    override fun getAlternativeVariants(commandText: String): Set<String> {
+    override fun getAlternativeOptions(commandText: String): Set<String> {
         val allAlternatives = mutableSetOf(commandText)
 
         for (provider in otherProviders) {
             log.info("Use alternative provider '${provider.javaClass.simpleName}' for command text '$commandText'")
 
-            val alternatives = provider.getAlternativeVariants(commandText)
+            val alternatives = provider.getAlternativeOptions(commandText)
 
-            if (allAlternatives.isEmpty() && provider.alternativesRequiredNotBeEmpty)
+            if (allAlternatives.isEmpty() && provider.alternativeOptionsMustNotBeEmpty)
                 return emptySet()
 
             log.debug("Got alternatives for text '$commandText' $alternatives")

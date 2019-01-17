@@ -15,7 +15,7 @@ class DirectMatchCommandFactory(private val commandService: CommandService,
     private val log = LogManager.getLogger(this.javaClass)
 
     override fun tryToCreateCommand(commandText: String): Command? {
-        val existedCommands = commandService.getAllByParseType(CommandParseType.DIRECT_MATCH)
+        val existedCommands = commandService.findAllByParseType(CommandParseType.DIRECT_MATCH)
 
         return existedCommands
                 .firstOrNull { existedCommand -> isCommandTextEquals(existedCommand, commandText) }

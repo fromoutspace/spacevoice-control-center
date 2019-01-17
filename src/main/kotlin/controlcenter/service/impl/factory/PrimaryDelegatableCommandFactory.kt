@@ -23,7 +23,7 @@ class PrimaryDelegatableCommandFactory(allCommandFactories: List<CommandFactory>
             if (command != null) return command
         }
 
-        log.info("Can't find any factory to create Command for text '$commandText'")
+        log.info("There is no factory that could create Command from text '$commandText'")
         return null
     }
 

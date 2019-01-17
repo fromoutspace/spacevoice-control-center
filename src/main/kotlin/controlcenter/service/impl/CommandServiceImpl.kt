@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class CommandServiceImpl(private val commandRepository: CommandRepository) : CommandService {
-    override fun getAllByParseType(parseType: CommandParseType): List<CommandDomain> {
+    override fun findAllByParseType(parseType: CommandParseType): List<CommandDomain> {
         return commandRepository.findAllByParseType(parseType)
     }
 }

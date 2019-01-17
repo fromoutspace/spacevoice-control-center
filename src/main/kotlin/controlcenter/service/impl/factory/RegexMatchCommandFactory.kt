@@ -15,7 +15,7 @@ class RegexMatchCommandFactory(private val commandService: CommandService,
     private val log = LogManager.getLogger(this.javaClass)
 
     override fun tryToCreateCommand(commandText: String): Command? {
-        val existedCommands = commandService.getAllByParseType(CommandParseType.REGEX_MATCH)
+        val existedCommands = commandService.findAllByParseType(CommandParseType.REGEX_MATCH)
 
         return existedCommands
                 .firstOrNull { existedCommand -> isMatchByRegexPattern(existedCommand, commandText) }

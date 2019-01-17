@@ -16,7 +16,7 @@ class HistoryCommandFactory(val commandHistoryService: CommandHistoryService) : 
         val commandFromHistory = commandHistoryService.findCommandByText(commandText)
 
         return if (commandFromHistory != null) {
-            log.info("Found ${commandFromHistory.command.execType} command in history")
+            log.info("Found ${commandFromHistory.command.execType} command in history for text '$commandText'")
             commandHistoryService.getCommand(commandFromHistory)
         } else {
             log.info("No records in history for command '$commandText'")
