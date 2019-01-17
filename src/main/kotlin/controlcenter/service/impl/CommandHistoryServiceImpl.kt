@@ -18,10 +18,10 @@ class CommandHistoryServiceImpl(private val commandHistoryRepository: CommandHis
     override fun saveCommand(commandText: String, command: Command) {
         val existedHistoryDomain = commandHistoryRepository.findFirstByCommandText(commandText)
         if (existedHistoryDomain != null) {
-            log.info("Update command '$commandText' in history")
             commandHistoryRepository.save(existedHistoryDomain.withUpdatedDate())
+            log.info("Command '$commandText' was updated in history")
         } else {
-            log.info("Save command '$commandText' to history")
+            log.info("Command '$commandText' was saved in history")
             val historyDomain = commandMapper.toHistoryDomain(commandText, command)
             commandHistoryRepository.save(historyDomain)
         }
@@ -32,8 +32,5 @@ class CommandHistoryServiceImpl(private val commandHistoryRepository: CommandHis
         return commandMapper.toCommandEntity(commandEntity)
     }
 
-    override fun findCommandByText(commandText: String) =
-            commandHistoryRepository.findFirstByCommandText(commandText)?.also {
-                log.info("Got command '$commandText' from history")
-            }
+    override fun findCommandByText(commandText: String) = commandHistoryRepository.findFirstByCommandText(commandText)
 }

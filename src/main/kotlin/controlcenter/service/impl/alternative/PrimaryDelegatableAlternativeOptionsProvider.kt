@@ -17,12 +17,9 @@ class PrimaryDelegatableAlternativeOptionsProvider(allOptionsProviders: List<Alt
         val allAlternatives = mutableSetOf(commandText)
 
         for (provider in otherProviders) {
-            log.info("Use alternative provider '${provider.javaClass.simpleName}' for command text '$commandText'")
+            log.info("Using alternative provider '${provider.javaClass.simpleName}' for command text '$commandText'")
 
             val alternatives = provider.getAlternativeOptions(commandText)
-
-            if (allAlternatives.isEmpty() && provider.alternativeOptionsMustNotBeEmpty)
-                return emptySet()
 
             log.debug("Got alternatives for text '$commandText' $alternatives")
             allAlternatives += alternatives

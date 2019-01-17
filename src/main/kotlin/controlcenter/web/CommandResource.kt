@@ -1,7 +1,8 @@
 package controlcenter.web
 
 import com.fasterxml.jackson.databind.JsonNode
-import controlcenter.service.CommandProcessFlow
+import controlcenter.service.CommandFactory
+import controlcenter.service.CommandRunner
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -10,7 +11,8 @@ import java.net.URLDecoder
 @RestController
 @CrossOrigin(origins = ["*"])
 class CommandResource(
-        private val commandProcessFlow: CommandProcessFlow
+        private val commandFactory: CommandFactory,
+        private val commandRunner: CommandRunner
 ) {
 
     @PostMapping("/command")
@@ -27,5 +29,5 @@ class CommandResource(
         return ResponseEntity(HttpStatus.OK)
     }
 
-    fun runCommand(commandText: String) = commandProcessFlow.processCommand(commandText)
+    fun runCommand(commandText: String) = commandFactory.tryToCreateCommand(commandText)?.also { commandRunner.runCommand(it) }
 }
