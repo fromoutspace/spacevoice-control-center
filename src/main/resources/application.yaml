@@ -1,0 +1,23 @@
+logging:
+  level:
+    commandexecuter: DEBUG
+
+spring:
+  # Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+  datasource:
+    url: jdbc:postgresql://localhost:5432/control_center
+    username: postgres
+    password:
+
+  jpa:
+    # The SQL dialect makes Hibernate generate better SQL for the chosen database
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+    # Hibernate ddl auto (create, create-drop, validate, update)
+    hibernate:
+      ddl-auto: update
+
+  liquibase:
+    change-log: classpath:changelog/liquibase-changelog.xml
