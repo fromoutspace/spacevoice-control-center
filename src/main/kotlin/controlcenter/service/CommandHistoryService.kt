@@ -5,6 +5,6 @@ import controlcenter.entity.command.Command
 
 interface CommandHistoryService {
     fun findCommandByText(commandText: String): CommandHistoryDomain?
-    fun getCommand(commandHistoryDomain: CommandHistoryDomain): Command?
+    fun getCommandEntity(commandHistoryDomain: CommandHistoryDomain): Command?
     fun saveCommand(commandText: String, command: Command)
 }

@@ -4,7 +4,7 @@ import controlcenter.domain.CommandHistoryDomain
 import controlcenter.entity.command.Command
 import controlcenter.repository.CommandHistoryRepository
 import controlcenter.service.CommandHistoryService
-import controlcenter.service.mapper.CommandMapper
+import controlcenter.service.CommandMapper
 import org.apache.logging.log4j.LogManager
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -22,15 +22,12 @@ class CommandHistoryServiceImpl(private val commandHistoryRepository: CommandHis
             log.info("Command '$commandText' was updated in history")
         } else {
             log.info("Command '$commandText' was saved in history")
-            val historyDomain = commandMapper.toHistoryDomain(commandText, command)
+            val historyDomain = CommandHistoryDomain(commandText, command.id)
             commandHistoryRepository.save(historyDomain)
         }
     }
 
-    override fun getCommand(commandHistoryDomain: CommandHistoryDomain): Command {
-        val commandEntity = commandHistoryDomain.command
-        return commandMapper.toCommandEntity(commandEntity)
-    }
+    override fun getCommandEntity(commandHistoryDomain: CommandHistoryDomain) = commandMapper.toCommandEntity(commandHistoryDomain.command)
 
     override fun findCommandByText(commandText: String) = commandHistoryRepository.findFirstByCommandText(commandText)
 }

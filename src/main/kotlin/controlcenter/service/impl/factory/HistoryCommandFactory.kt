@@ -14,10 +14,9 @@ class HistoryCommandFactory(val commandHistoryService: CommandHistoryService) : 
 
     override fun tryToCreateCommand(commandText: String): Command? {
         val commandFromHistory = commandHistoryService.findCommandByText(commandText)
-
         return if (commandFromHistory != null) {
             log.info("Found ${commandFromHistory.command.execType} command in history for text '$commandText'")
-            commandHistoryService.getCommand(commandFromHistory)
+            commandHistoryService.getCommandEntity(commandFromHistory)
         } else {
             log.info("No records in history for command '$commandText'")
             null

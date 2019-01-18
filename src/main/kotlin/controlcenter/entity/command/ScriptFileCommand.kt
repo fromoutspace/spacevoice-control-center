@@ -2,4 +2,6 @@ package controlcenter.entity.command
 
 import controlcenter.enumeration.CommandExecType
 
-abstract class ScriptFileCommand(val filePath: String, execType: CommandExecType) : Command(execType)
+abstract class ScriptFileCommand(override val id: Long?,
+                                 val filePath: String,
+                                 override val execType: CommandExecType) : Command

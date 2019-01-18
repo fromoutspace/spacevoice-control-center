@@ -25,7 +25,7 @@ private fun logApplicationStartup(env: Environment) {
         protocol = "https"
     }
     val serverPort = env.getProperty("server.port") ?: "8080"
-    var contextPath = env.getProperty("server.servlet.context-path")
+    var contextPath = env.getProperty("server.servlet.context-content")
     if (Strings.isBlank(contextPath)) {
         contextPath = "/"
     }

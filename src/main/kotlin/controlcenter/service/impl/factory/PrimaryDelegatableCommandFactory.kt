@@ -25,7 +25,7 @@ class PrimaryDelegatableCommandFactory(allCommandFactories: List<CommandFactory>
 
         log.info("Trying to create Command  with options $allCommandTextOptions for text '$commandText'")
         for (commandTextOption in allCommandTextOptions) {
-            log.info("Trying to create Command using option $commandTextOption")
+            log.info("Trying to create Command using option '$commandTextOption'")
             for (commandFactory in otherCommandFactories) {
                 val factoryName = commandFactory.javaClass.simpleName
 

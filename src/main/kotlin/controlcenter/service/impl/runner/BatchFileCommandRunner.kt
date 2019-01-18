@@ -7,14 +7,13 @@ import org.jboss.logging.Logger
 import org.springframework.stereotype.Service
 
 @Service
-class OperationSystemCommandRunner : CommandRunner {
+class BatchFileCommandRunner : CommandRunner {
     private val log = Logger.getLogger(this.javaClass)
 
     override fun runCommand(command: Command) {
         if (command is BatchFileCommand) {
-            val filePath = "\"${command.filePath}\""
-            log.info("Running Command as BATCH file $filePath using ${this.javaClass.simpleName}")
-            Runtime.getRuntime().exec(filePath)
+            log.info("Running batch file Command file '${command.filePath}' using ${this.javaClass.simpleName}")
+            Runtime.getRuntime().exec("\"${command.filePath}\"")
         }
     }
 

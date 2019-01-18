@@ -4,8 +4,8 @@ import controlcenter.domain.CommandDomain
 import controlcenter.entity.command.Command
 import controlcenter.enumeration.CommandParseType
 import controlcenter.service.CommandFactory
+import controlcenter.service.CommandMapper
 import controlcenter.service.CommandService
-import controlcenter.service.mapper.CommandMapper
 import org.apache.logging.log4j.LogManager
 import org.springframework.stereotype.Service
 
