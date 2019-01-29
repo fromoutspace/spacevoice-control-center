@@ -12,8 +12,9 @@ class BatchFileCommandRunner : CommandRunner {
 
     override fun runCommand(command: Command) {
         if (command is BatchFileCommand) {
-            log.info("Running batch file Command file '${command.filePath}' using ${this.javaClass.simpleName}")
-            Runtime.getRuntime().exec("\"${command.filePath}\"")
+            val commandToExec = "cmd /c \"${command.filePath}\""
+            log.info("Running batch file with command '$commandToExec' using ${this.javaClass.simpleName}")
+            Runtime.getRuntime().exec(commandToExec, null)
         }
     }
 

@@ -14,13 +14,13 @@ class CommandHistoryDomain {
     @ManyToOne(fetch = FetchType.EAGER)
     var command: CommandDomain = emptyCommandDomain()
 
-    constructor(commandText: String, commandDomain: CommandDomain) {
-        this.commandText = commandText
+    constructor(commandText: List<String>, commandDomain: CommandDomain) {
+        this.commandText = commandText.joinToString(" ")
         this.command = commandDomain
         this.updatedAt = Instant.now()
     }
 
-    constructor(commandText: String, commandDomainId: Long?) :
+    constructor(commandText: List<String>, commandDomainId: Long?) :
             this(commandText, CommandDomain().apply { id = commandDomainId })
 
     fun withUpdatedDate() = this.apply { updatedAt = now() }

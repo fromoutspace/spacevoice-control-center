@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 @Service
 class AssistantNameAlternativeOptionsProvider(private val settingService: SettingService) : AlternativeOptionsProvider {
 
-    override fun getAlternativeOptions(commandText: String): Set<String> {
+    override fun getAlternativeOptions(commandText: List<String>): Set<List<String>> {
         val assistantName = settingService.get(SETTING_ASSISTANT_NAME).toLowerCase()
         val hasAssistantName = commandText.isStartsWithAssistantName(assistantName)
 
@@ -16,11 +16,8 @@ class AssistantNameAlternativeOptionsProvider(private val settingService: Settin
         else emptySet()
     }
 
-    private fun String.withoutAssistantName(assistantName: String) =
-            this.replace(assistantName, "").trimStart()
 
-    private fun String.isStartsWithAssistantName(assistantName: String): Boolean {
-        val adoptedText = this.trimStart().toLowerCase()
-        return adoptedText.startsWith(assistantName)
-    }
+    private fun List<String>.isStartsWithAssistantName(assistantName: String) = this.firstOrNull() == assistantName
+
+    private fun List<String>.withoutAssistantName(assistantName: String): List<String> = this.filterNot { it == assistantName }
 }

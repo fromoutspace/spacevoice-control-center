@@ -12,7 +12,7 @@ class HistoryCommandFactory(val commandHistoryService: CommandHistoryService) : 
 
     override val executionPriority = 10
 
-    override fun tryToCreateCommand(commandText: String): Command? {
+    override fun tryToCreateCommand(commandText: List<String>): Command? {
         val commandFromHistory = commandHistoryService.findCommandByText(commandText)
         return if (commandFromHistory != null) {
             log.info("Found ${commandFromHistory.command.execType} command in history for text '$commandText'")

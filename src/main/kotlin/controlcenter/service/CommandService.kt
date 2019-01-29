@@ -4,5 +4,5 @@ import controlcenter.domain.CommandDomain
 import controlcenter.enumeration.CommandParseType
 
 interface CommandService {
-    fun findAllByParseType(commandType: CommandParseType): List<CommandDomain>
+    fun findAllByParseType(parseType: CommandParseType): List<CommandDomain>
 }

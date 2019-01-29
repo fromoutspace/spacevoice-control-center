@@ -14,17 +14,18 @@ class DirectMatchCommandFactory(private val commandService: CommandService,
                                 private val commandMapper: CommandMapper) : CommandFactory {
     private val log = LogManager.getLogger(this.javaClass)
 
-    override fun tryToCreateCommand(commandText: String): Command? {
-        val existedCommands = commandService.findAllByParseType(CommandParseType.DIRECT_MATCH)
+    override fun tryToCreateCommand(commandText: List<String>): Command? {
+        val savedCommands = commandService.findAllByParseType(CommandParseType.DIRECT_MATCH)
 
-        return existedCommands
-                .firstOrNull { existedCommand -> isCommandTextEquals(existedCommand, commandText) }
-                ?.also { existedCommand -> log.debug("Match Command '$commandText' by direct match '${existedCommand.matchValue}'") }
+        return savedCommands
+                .firstOrNull { savedCommand -> isCommandTextEquals(savedCommand, commandText) }
+                ?.also { savedCommand -> log.debug("Match Command '$commandText' by direct match '${savedCommand.matchValue}'") }
                 ?.let { commandMapper.toCommandEntity(it) }
     }
 
-    private fun isCommandTextEquals(existedCommand: CommandDomain, commandText: String): Boolean {
-        val commandTextFromTable = existedCommand.matchValue
-        return commandTextFromTable.toLowerCase() == commandText.toLowerCase()
+    private fun isCommandTextEquals(savedCommand: CommandDomain, commandText: List<String>): Boolean {
+        val savedCommandText = savedCommand.matchValue
+        val commandTextString = commandText.joinToString(" ")
+        return savedCommandText.toLowerCase() == commandTextString.toLowerCase()
     }
 }

@@ -15,8 +15,8 @@ class CommandHistoryServiceImpl(private val commandHistoryRepository: CommandHis
     private val log = LogManager.getLogger(this.javaClass)
 
     @Transactional
-    override fun saveCommand(commandText: String, command: Command) {
-        val existedHistoryDomain = commandHistoryRepository.findFirstByCommandText(commandText)
+    override fun saveCommand(commandText: List<String>, command: Command) {
+        val existedHistoryDomain = findCommandByText(commandText)
         if (existedHistoryDomain != null) {
             commandHistoryRepository.save(existedHistoryDomain.withUpdatedDate())
             log.info("Command '$commandText' was updated in history")
@@ -29,5 +29,5 @@ class CommandHistoryServiceImpl(private val commandHistoryRepository: CommandHis
 
     override fun getCommandEntity(commandHistoryDomain: CommandHistoryDomain) = commandMapper.toCommandEntity(commandHistoryDomain.command)
 
-    override fun findCommandByText(commandText: String) = commandHistoryRepository.findFirstByCommandText(commandText)
+    override fun findCommandByText(commandText: List<String>) = commandHistoryRepository.findFirstByCommandText(commandText.joinToString(" "))
 }

@@ -14,17 +14,18 @@ class RegexMatchCommandFactory(private val commandService: CommandService,
                                private val commandMapper: CommandMapper) : CommandFactory {
     private val log = LogManager.getLogger(this.javaClass)
 
-    override fun tryToCreateCommand(commandText: String): Command? {
-        val existedCommands = commandService.findAllByParseType(CommandParseType.REGEX_MATCH)
+    override fun tryToCreateCommand(commandText: List<String>): Command? {
+        val savedCommands = commandService.findAllByParseType(CommandParseType.REGEX_MATCH)
 
-        return existedCommands
-                .firstOrNull { existedCommand -> isMatchByRegexPattern(existedCommand, commandText) }
-                ?.also { existedCommand -> log.debug("Match Command '$commandText' with regex '${existedCommand.matchValue}'") }
+        return savedCommands
+                .firstOrNull { savedCommand -> isMatchByRegexPattern(savedCommand, commandText) }
+                ?.also { savedCommand -> log.debug("Match Command '$commandText' with regex '${savedCommand.matchValue}'") }
                 ?.let { commandMapper.toCommandEntity(it) }
     }
 
-    private fun isMatchByRegexPattern(existedCommand: CommandDomain, commandText: String): Boolean {
-        val regexPattern = existedCommand.matchValue
-        return commandText.matches(Regex(regexPattern))
+    private fun isMatchByRegexPattern(savedCommand: CommandDomain, commandText: List<String>): Boolean {
+        val regexPattern = savedCommand.matchValue
+        val commandTextString = commandText.joinToString(" ")
+        return commandTextString.matches(Regex(regexPattern))
     }
 }

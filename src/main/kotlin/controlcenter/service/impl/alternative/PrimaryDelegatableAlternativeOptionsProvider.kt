@@ -13,7 +13,7 @@ class PrimaryDelegatableAlternativeOptionsProvider(allOptionsProviders: List<Alt
     private val otherProviders = allOptionsProviders
             .filter { it != this }
 
-    override fun getAlternativeOptions(commandText: String): Set<String> {
+    override fun getAlternativeOptions(commandText: List<String>): Set<List<String>> {
         val allAlternatives = mutableSetOf(commandText)
 
         for (provider in otherProviders) {

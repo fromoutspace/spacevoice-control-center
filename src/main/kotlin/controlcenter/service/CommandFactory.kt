@@ -5,5 +5,5 @@ import controlcenter.entity.command.Command
 interface CommandFactory {
     val executionPriority get() = 0
 
-    fun tryToCreateCommand(commandText: String): Command?
+    fun tryToCreateCommand(commandText: List<String>): Command?
 }

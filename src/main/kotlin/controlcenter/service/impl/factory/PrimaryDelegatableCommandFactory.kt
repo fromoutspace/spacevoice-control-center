@@ -19,11 +19,11 @@ class PrimaryDelegatableCommandFactory(allCommandFactories: List<CommandFactory>
             .filter { it != this }
             .sortedByDescending { it.executionPriority }
 
-    override fun tryToCreateCommand(commandText: String): Command? {
+    override fun tryToCreateCommand(commandText: List<String>): Command? {
         log.info("Look up for alternative options '$commandText' ")
         val allCommandTextOptions = alternativeOptionsProvider.getAlternativeOptions(commandText)
 
-        log.info("Trying to create Command  with options $allCommandTextOptions for text '$commandText'")
+        log.info("Trying to create Command  with options '$allCommandTextOptions' for text '$commandText'")
         for (commandTextOption in allCommandTextOptions) {
             log.info("Trying to create Command using option '$commandTextOption'")
             for (commandFactory in otherCommandFactories) {
