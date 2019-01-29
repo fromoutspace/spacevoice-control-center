@@ -6,5 +6,5 @@ import controlcenter.enumeration.CommandExecType
 class AppCommand(commandDomain: CommandDomain) : Command {
     override val id: Long? = commandDomain.id
     val applicationPath: String = commandDomain.content
-    override val execType = CommandExecType.SHELL_COMMAND
+    override val execType = CommandExecType.APP
 }
