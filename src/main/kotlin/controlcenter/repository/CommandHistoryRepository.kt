@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CommandHistoryRepository : CrudRepository<CommandHistoryDomain, Long> {
-    fun findFirstByCommandText(commandText: String): CommandHistoryDomain?
+    fun findFirstByCommandTextOrderByCreatedAtDesc(commandText: String): CommandHistoryDomain?
 }
