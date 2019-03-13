@@ -10,12 +10,12 @@ class AssistantNameAlternativeOptionsProvider(private val settingService: Settin
 
     override fun getAlternativeOptions(commandText: List<String>): Set<List<String>> {
         val assistantName = settingService.get(SETTING_ASSISTANT_NAME).toLowerCase()
-        val hasAssistantName = commandText.isStartsWithAssistantName(assistantName)
 
-        return if (hasAssistantName) setOf(commandText.withoutAssistantName(assistantName))
-        else emptySet()
+        return if (commandText.isStartsWithAssistantName(assistantName))
+            setOf(commandText.withoutAssistantName(assistantName))
+        else
+            emptySet()
     }
-
 
     private fun List<String>.isStartsWithAssistantName(assistantName: String) = this.firstOrNull() == assistantName
 
