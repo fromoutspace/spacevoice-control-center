@@ -16,7 +16,7 @@ class CommandHistoryServiceImpl(private val commandHistoryRepository: CommandHis
 
     @Transactional
     override fun saveCommand(commandText: List<String>, command: Command) {
-        log.info("Command '$commandText' was saved in history")
+        log.debug("Command with text=$commandText was saved in history")
         val historyDomain = CommandHistoryDomain(commandText, command.id)
         commandHistoryRepository.save(historyDomain)
     }

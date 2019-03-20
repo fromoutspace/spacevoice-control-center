@@ -18,4 +18,6 @@ class SettingServiceImpl(private val settingRepository: SettingRepository) : Set
         }
         settingRepository.save(updatedSetting)
     }
+
+    override fun isTrue(key: String) = get(key) == "true"
 }

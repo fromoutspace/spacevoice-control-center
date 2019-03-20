@@ -2,17 +2,15 @@ package controlcenter.service.impl.runner
 
 import controlcenter.entity.command.Command
 import controlcenter.service.CommandRunner
+import controlcenter.service.DelegatableService
 import org.apache.logging.log4j.LogManager
 import org.springframework.context.annotation.Primary
 import org.springframework.stereotype.Service
 
 @Service
 @Primary
-class PrimaryDelegatableCommandRunner(allCommandRunners: List<CommandRunner>) : CommandRunner {
+class PrimaryDelegatableCommandRunner(allCommandRunners: List<CommandRunner>) : DelegatableService<CommandRunner>(allCommandRunners), CommandRunner {
     private val log = LogManager.getLogger(this.javaClass)
-
-    private val otherCommandRunners = allCommandRunners
-            .filter { it != this }
 
     override fun canRunCommand(command: Command) = true
 
@@ -30,5 +28,5 @@ class PrimaryDelegatableCommandRunner(allCommandRunners: List<CommandRunner>) : 
     }
 
     private fun findFirstCommandRunnerThatCanRunCommand(command: Command) =
-            otherCommandRunners.firstOrNull { it.canRunCommand(command) }
+            otherServices.firstOrNull { it.canRunCommand(command) }
 }

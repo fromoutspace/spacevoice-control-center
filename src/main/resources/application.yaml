@@ -1,6 +1,6 @@
 logging:
   level:
-    commandexecuter: DEBUG
+    controlcenter: DEBUG
 
 spring:
   # Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)

@@ -3,6 +3,7 @@ package controlcenter.web
 import com.fasterxml.jackson.databind.JsonNode
 import controlcenter.service.CommandFactory
 import controlcenter.service.CommandRunner
+import controlcenter.service.CommandTextFilter
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -12,7 +13,8 @@ import java.net.URLDecoder
 @CrossOrigin(origins = ["*"])
 class CommandResource(
         private val commandFactory: CommandFactory,
-        private val commandRunner: CommandRunner
+        private val commandRunner: CommandRunner,
+        private val commandTextFilter: CommandTextFilter
 ) {
 
     @PostMapping("/command")
@@ -30,7 +32,10 @@ class CommandResource(
     }
 
     fun runCommand(commandText: String) {
-        val processedCommandText = commandText
+        val filteredText = commandTextFilter.filterText(commandText)
+        if (filteredText.isEmpty()) return
+
+        val processedCommandText = filteredText
                 .trim()
                 .toLowerCase()
                 .split(Regex("\\s+"))

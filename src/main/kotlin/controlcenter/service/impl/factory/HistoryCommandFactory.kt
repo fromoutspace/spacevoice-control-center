@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class HistoryCommandFactory(val commandHistoryService: CommandHistoryService) : CommandFactory {
     private val log = LogManager.getLogger(this.javaClass)
 
-    override val executionPriority = 10
+    override val executionPriority = -1
 
     override fun tryToCreateCommand(commandText: List<String>): Command? {
         val commandFromHistory = commandHistoryService.findCommandByText(commandText)
